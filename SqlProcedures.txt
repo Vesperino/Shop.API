@@ -1,0 +1,14 @@
+-- SQL Stored Procedure
+CREATE OR REPLACE PROCEDURE GetProductsByCategory(IN categoryId INT, IN offset INT, IN pageSize INT)
+LANGUAGE SQL
+AS $$
+BEGIN
+    SELECT p.*
+    FROM Products p
+    INNER JOIN ProductCategory pc ON p.Id = pc.ProductId
+    WHERE pc.CategoryId = categoryId
+    ORDER BY p.Name
+    OFFSET offset ROWS
+    FETCH NEXT pageSize ROWS ONLY;
+END;
+$$;
